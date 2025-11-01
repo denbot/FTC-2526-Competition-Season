@@ -35,7 +35,6 @@ package org.firstinspires.ftc.teamcode;
 import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -63,9 +62,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
  * main robot "loop," continuously checking for conditions that allow us to move to the next step.
  */
 
-@Autonomous(name="StarterBotAuto", group="StarterBot", preselectTeleOp = "StarterBotTeleop")
+@Autonomous(name="StarterBotAuto2", group="StarterBot", preselectTeleOp = "StarterBotTeleop")
 //@Disabled
-public class StarterBotAuto extends OpMode
+public class StarterBotAuto2 extends OpMode
 {
 
     final double FEED_TIME = 0.20; //The feeder servos run this long when a shot is requested.
@@ -150,6 +149,7 @@ public class StarterBotAuto extends OpMode
      * Here is our auto state machine enum. This captures each action we'd like to do in auto.
      */
     private enum AutonomousState {
+        MOVE_BACK,
         LAUNCH,
         WAIT_FOR_LAUNCH,
         DRIVING_AWAY_FROM_GOAL,
@@ -183,7 +183,7 @@ public class StarterBotAuto extends OpMode
          * Later in our code, we will progress through the state machine by moving to other enum members.
          * We do the same for our launcher state machine, setting it to IDLE before we use it later.
          */
-        autonomousState = AutonomousState.LAUNCH;
+        autonomousState = AutonomousState.MOVE_BACK;
         launchState = LaunchState.IDLE;
 
 
@@ -306,6 +306,13 @@ public class StarterBotAuto extends OpMode
              * "false" condition means that we are continuing to call the function every loop,
              * allowing it to cycle through and continue the process of launching the first ball.
              */
+            case MOVE_BACK:
+                if(drive(DRIVE_SPEED, -4, DistanceUnit.INCH, 1)){
+                    leftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    rightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    autonomousState = AutonomousState.LAUNCH;
+                }
+                break;
             case LAUNCH:
                 launch(true);
                 autonomousState = AutonomousState.WAIT_FOR_LAUNCH;

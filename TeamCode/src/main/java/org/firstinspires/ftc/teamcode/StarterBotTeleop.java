@@ -207,6 +207,8 @@ public class StarterBotTeleop extends OpMode {
          * both motors work to rotate the robot. Combinations of these inputs can be used to create
          * more complex maneuvers.
          */
+        double forewardPower = Math.pow(-gamepad1.left_stick_y,3);
+        double turnPower = Math.pow(gamepad1.right_stick_x,3);
         arcadeDrive(-gamepad1.left_stick_y, gamepad1.right_stick_x);
 
         /*
