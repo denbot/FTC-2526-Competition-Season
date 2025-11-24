@@ -224,7 +224,7 @@ public class StarterBotTeleop extends OpMode {
         /*
          * Now we call our "Launch" function.
          */
-        launch(gamepad1.rightBumperWasPressed());
+        launch(gamepad1.right_trigger > 0.7);
 
         /*
          * Show the state and motor powers
@@ -240,6 +240,7 @@ public class StarterBotTeleop extends OpMode {
      */
     @Override
     public void stop() {
+        launcher.setVelocity(STOP_SPEED);
     }
 
     void arcadeDrive(double forward, double rotate) {
