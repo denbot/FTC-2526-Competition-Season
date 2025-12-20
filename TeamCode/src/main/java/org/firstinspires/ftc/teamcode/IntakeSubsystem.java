@@ -24,12 +24,12 @@ public class IntakeSubsystem {
         telemetry.addData("Intake", "Power (%.2f)", intakeMotor.getPower());
     }
      public void intake(){
-         intakeMotor.setPower(1);
+         intakeMotor.setPower(Constants.intakePower);
     }
     public void outtake(){
-        intakeMotor.setPower(-1);
+        intakeMotor.setPower(Constants.intakePower);
     }
     public void stopeIntake(){
-        intakeMotor.setPower(0);
+        intakeMotor.setPower(Constants.intakePower);
     }
 }
