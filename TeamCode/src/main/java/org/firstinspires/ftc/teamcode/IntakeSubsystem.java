@@ -29,7 +29,7 @@ public class IntakeSubsystem {
     public void outtake(){
         intakeMotor.setPower(Constants.intakePower);
     }
-    public void stopeIntake(){
+    public void stopIntake(){
         intakeMotor.setPower(Constants.intakePower);
     }
 }
