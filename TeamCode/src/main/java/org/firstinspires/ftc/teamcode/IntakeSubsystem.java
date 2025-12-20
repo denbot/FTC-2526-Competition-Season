@@ -17,7 +17,7 @@ public class IntakeSubsystem {
 
     public void init(HardwareMap hardwareMap){
         intakeMotor = hardwareMap.get(DcMotor.class, Constants.intakeName);
-        intakeMotor.setDirection(DcMotor.Direction.FORWARD);
+        intakeMotor.setDirection(DcMotor.Direction.REVERSE);
         intakeMotor.setZeroPowerBehavior(BRAKE);
     }
     public void showIntakeTelem(){
@@ -27,9 +27,9 @@ public class IntakeSubsystem {
          intakeMotor.setPower(Constants.intakePower);
     }
     public void outtake(){
-        intakeMotor.setPower(Constants.intakePower);
+        intakeMotor.setPower(Constants.outtakePower);
     }
     public void stopIntake(){
-        intakeMotor.setPower(Constants.intakePower);
+        intakeMotor.setPower(Constants.stopIntake);
     }
 }
