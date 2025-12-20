@@ -12,4 +12,5 @@ public class Constants {
     public static final double launcherMinVelocity = 1075;
     public static final double launcherStopVelocity = 0.0;
     public static final double feedTimeSeconds = 0.20;
+    public static final String intakeName = "intake";
 }
