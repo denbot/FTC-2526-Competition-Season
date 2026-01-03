@@ -4,8 +4,11 @@ import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class DriveSubsystem {
     private final Telemetry telemetry;
@@ -14,6 +17,7 @@ public class DriveSubsystem {
     // Setup a variable for each drive wheel to save power level for telemetry
     private double leftPower;
     private double rightPower;
+    private ElapsedTime holdTimer = new ElapsedTime();
 
     public DriveSubsystem (Telemetry telemetry){
         this.telemetry=telemetry;
@@ -41,7 +45,7 @@ public class DriveSubsystem {
         rightDrive.setZeroPowerBehavior(BRAKE);
     }
 
-    void arcadeDrive(double forward, double rotate) {
+    public void arcadeDrive(double forward, double rotate) {
         leftPower = forward + rotate;
         rightPower = forward - rotate;
 
@@ -51,7 +55,56 @@ public class DriveSubsystem {
         leftDrive.setPower(leftPower);
         rightDrive.setPower(rightPower);
     }
-    void showDriveTelem(){
+    public void showDriveTelem(){
         telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
+    }
+
+    public boolean drive(double distance, DistanceUnit unit, double holdTime){
+        double targetPosition = (unit.toMm(distance) * Constants.ticksPerMM);
+
+        leftDrive.setTargetPosition((int) targetPosition);
+        rightDrive.setTargetPosition((int) targetPosition);
+
+        leftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        leftDrive.setPower(Constants.autoMoveSpeed);
+        rightDrive.setPower(Constants.autoMoveSpeed);
+
+        if(Math.abs(targetPosition - leftDrive.getCurrentPosition()) > (Constants.toleranceMM * Constants.ticksPerMM)){
+            holdTimer.reset();
+        }
+
+        return (holdTimer.seconds() > holdTime);
+    }
+    public void resetEncoders(){
+        leftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    }
+    public boolean rotate(double angle, AngleUnit unit, double holdTime){
+
+        double targetMm = unit.toRadians(angle)*(Constants.trackWidthMM/2);
+
+        /*
+         * We need to set the left motor to the inverse of the target so that we rotate instead
+         * of driving straight.
+         */
+        double leftTargetPosition = -(targetMm*Constants.ticksPerMM);
+        double rightTargetPosition = targetMm*Constants.ticksPerMM;
+
+        leftDrive.setTargetPosition((int) leftTargetPosition);
+        rightDrive.setTargetPosition((int) rightTargetPosition);
+
+        leftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        leftDrive.setPower(Constants.autoMoveSpeed);
+        rightDrive.setPower(Constants.autoMoveSpeed);
+
+        if((Math.abs(leftTargetPosition - leftDrive.getCurrentPosition())) > (Constants.toleranceMM * Constants.ticksPerMM)){
+            holdTimer.reset();
+        }
+
+        return (holdTimer.seconds() > holdTime);
     }
 }

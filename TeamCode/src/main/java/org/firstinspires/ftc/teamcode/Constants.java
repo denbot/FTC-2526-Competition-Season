@@ -16,4 +16,11 @@ public class Constants {
     public static final double outtakePower = -1;
     public static final double intakePower = 1;
     public static final double stopIntake = 0.0;
+    public static final double toleranceMM = 10;
+    public static final double wheelDiameterMM = 96;
+    public static final double encoderTicksPerRev = 537.7;
+    public static final double ticksPerMM = encoderTicksPerRev/(wheelDiameterMM * Math.PI);
+    public static final double autoMoveSpeed = 0.5;
+    public static final double trackWidthMM = 404;
+    public static final double timeBetweenLaunchesSeconds = 2;
 }

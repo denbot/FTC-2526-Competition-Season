@@ -15,17 +15,17 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class ShooterSubsystem {
     private enum LaunchState {
         IDLE,
-        SPIN_UP,
+        PREPARE,
         LAUNCH,
-        LAUNCHING,
     }
-
     private LaunchState launchState;
-    ElapsedTime feederTimer = new ElapsedTime();
+    private final ElapsedTime feederTimer = new ElapsedTime();
+    private final ElapsedTime shotTimer = new ElapsedTime();
     private final Telemetry telemetry;
     private DcMotorEx launcher = null;
     private CRServo leftFeeder = null;
     private CRServo rightFeeder = null;
+    private int numberOfArtifacts = 0;
     public ShooterSubsystem (Telemetry telemetry){
         this.telemetry=telemetry;
     }
@@ -75,32 +75,48 @@ public class ShooterSubsystem {
         telemetry.addData("motorSpeed", launcher.getVelocity());
         telemetry.addData("State", launchState);
     }
-    void launch(boolean shotRequested) {
+    public void launch(){
         switch (launchState) {
             case IDLE:
-                if (shotRequested) {
-                    launchState = LaunchState.SPIN_UP;
+                if (numberOfArtifacts > 0) {
+                    launchState = LaunchState.PREPARE;
+                    shotTimer.reset();
                 }
                 break;
-            case SPIN_UP:
-                this.startLauncher();
-                if (launcher.getVelocity() > Constants.launcherMinVelocity) {
+            case PREPARE:
+                launcher.setVelocity(Constants.launcherTargetVelocity);
+                if (launcher.getVelocity() > Constants.launcherMinVelocity){
                     launchState = LaunchState.LAUNCH;
+                    leftFeeder.setPower(1);
+                    rightFeeder.setPower(1);
+                    feederTimer.reset();
                 }
                 break;
             case LAUNCH:
-                leftFeeder.setPower(Constants.shooterServoMaxSpeed);
-                rightFeeder.setPower(Constants.shooterServoMaxSpeed);
-                feederTimer.reset();
-                launchState = LaunchState.LAUNCHING;
-                break;
-            case LAUNCHING:
                 if (feederTimer.seconds() > Constants.feedTimeSeconds) {
-                    launchState = LaunchState.IDLE;
-                    leftFeeder.setPower(Constants.shooterServoStopSpeed);
-                    rightFeeder.setPower(Constants.shooterServoStopSpeed);
+                    leftFeeder.setPower(0);
+                    rightFeeder.setPower(0);
+
+                    if(shotTimer.seconds() > Constants.timeBetweenLaunchesSeconds){
+                        numberOfArtifacts--;
+                        launchState = LaunchState.IDLE;
+                    }
                 }
-                break;
         }
+    }
+    public void requestShot(){
+        numberOfArtifacts++;
+        if (numberOfArtifacts > 3){
+            numberOfArtifacts = 3;
+        }
+    }
+    public void setNumberOfArtifacts(int shotsRequested){
+        numberOfArtifacts = shotsRequested;
+        if (numberOfArtifacts > 3){
+            numberOfArtifacts = 3;
+        }
+    }
+    public boolean doneShooting(){
+        return numberOfArtifacts == 0;
     }
 }

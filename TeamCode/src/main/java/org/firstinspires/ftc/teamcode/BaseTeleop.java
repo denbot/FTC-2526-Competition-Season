@@ -126,7 +126,10 @@ public class BaseTeleop extends OpMode {
         /*
          * Now we call our "Launch" function.
          */
-        shooter.launch(gamepad1.right_trigger == 1);
+        if(gamepad1.rightBumperWasPressed()){
+            shooter.requestShot();
+        }
+        shooter.launch();
 
         /*
          * Show the state and motor powers
