@@ -13,8 +13,9 @@ public class BaseAuto extends OpMode {
         PREP,
         SHOOT,
         GO_BACK,
-        ROTATE,
+        ROTATE_A,
         GO_FORWARD,
+        ROTATE_B,
         END
     }
     private final DriveSubsystem drive = new DriveSubsystem(telemetry);
@@ -61,19 +62,19 @@ public class BaseAuto extends OpMode {
                 break;
 
             case GO_BACK:
-                if (drive.drive(-46, DistanceUnit.INCH, 2)){
+                if (drive.drive(-45, DistanceUnit.INCH, 2)){
                     drive.resetEncoders();
-                    state = AutoState.ROTATE;
+                    state = AutoState.ROTATE_A;
 
                 }
                 break;
 
-            case ROTATE:
-                double degreesToRotate = 135;
-                if (alliance == Alliance.BLUE){
-                    degreesToRotate *= -1;
+            case ROTATE_A:
+                double degreesToRotateA = 135;
+                if (alliance == Alliance.RED){
+                    degreesToRotateA *= -1;
                 }
-                if (drive.rotate(degreesToRotate, AngleUnit.DEGREES, 2)){
+                if (drive.rotate(degreesToRotateA, AngleUnit.DEGREES, 2)){
                     drive.resetEncoders();
                     state = AutoState.GO_FORWARD;
                 }
@@ -82,8 +83,19 @@ public class BaseAuto extends OpMode {
             case GO_FORWARD:
                 if (drive.drive(52, DistanceUnit.INCH, 2)){
                     drive.resetEncoders();
-                    state = AutoState.END;
+                    state = AutoState.ROTATE_B;
 
+                }
+                break;
+
+            case ROTATE_B:
+                double degreesToRotateB = 90;
+                if (alliance == Alliance.RED){
+                    degreesToRotateB *= -1;
+                }
+                if (drive.rotate(degreesToRotateB, AngleUnit.DEGREES, 0.5)){
+                    drive.resetEncoders();
+                    state = AutoState.END;
                 }
                 break;
         }

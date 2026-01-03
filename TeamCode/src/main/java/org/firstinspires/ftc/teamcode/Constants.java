@@ -21,6 +21,6 @@ public class Constants {
     public static final double encoderTicksPerRev = 537.7;
     public static final double ticksPerMM = encoderTicksPerRev/(wheelDiameterMM * Math.PI);
     public static final double autoMoveSpeed = 0.5;
-    public static final double trackWidthMM = 404;
+    public static final double trackWidthMM = 449;
     public static final double timeBetweenLaunchesSeconds = 2;
 }
