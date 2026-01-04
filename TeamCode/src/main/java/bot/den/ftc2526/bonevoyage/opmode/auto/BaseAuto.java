@@ -1,25 +1,29 @@
-package org.firstinspires.ftc.teamcode;
+package bot.den.ftc2526.bonevoyage.opmode.auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-@Autonomous(name = "BaseAuto")
+import bot.den.ftc2526.bonevoyage.Alliance;
+import bot.den.ftc2526.bonevoyage.subsystem.Drive;
+import bot.den.ftc2526.bonevoyage.subsystem.Shooter;
+
+@Autonomous(name = "BaseAuto", group="Denbot")
 public class BaseAuto extends OpMode {
     private enum AutoState{
         PREP,
         SHOOT,
         GO_BACK,
-        ROTATE_A,
+        ROTATE_TO_BACK,
         GO_FORWARD,
-        ROTATE_B,
+        ROTATE_TO_LOADING_ZONE,
         END
     }
-    private final DriveSubsystem drive = new DriveSubsystem(telemetry);
-    private final ShooterSubsystem shooter = new ShooterSubsystem(telemetry);
+
+    private final Drive drive = new Drive(telemetry);
+    private final Shooter shooter = new Shooter(telemetry);
     private Alliance alliance = Alliance.RED;
     private AutoState state = AutoState.PREP;
 
@@ -46,12 +50,12 @@ public class BaseAuto extends OpMode {
 
     @Override
     public void loop(){
+        double degreesToRotate = 0;
         switch (state){
             case PREP:
                 shooter.setNumberOfArtifacts(3);
                 state = AutoState.SHOOT;
                 break;
-
             case SHOOT:
                 shooter.launch();
                 if (shooter.doneShooting()){
@@ -60,46 +64,41 @@ public class BaseAuto extends OpMode {
                     state = AutoState.GO_BACK;
                 }
                 break;
-
             case GO_BACK:
-                if (drive.drive(-45, DistanceUnit.INCH, 2)){
+                if (drive.drive(-45, DistanceUnit.INCH)){
                     drive.resetEncoders();
-                    state = AutoState.ROTATE_A;
-
+                    state = AutoState.ROTATE_TO_BACK;
                 }
                 break;
-
-            case ROTATE_A:
-                double degreesToRotateA = 135;
+            case ROTATE_TO_BACK:
+                degreesToRotate = 135;
                 if (alliance == Alliance.RED){
-                    degreesToRotateA *= -1;
+                    degreesToRotate *= -1;
                 }
-                if (drive.rotate(degreesToRotateA, AngleUnit.DEGREES, 2)){
+                if (drive.rotate(degreesToRotate, AngleUnit.DEGREES)){
                     drive.resetEncoders();
                     state = AutoState.GO_FORWARD;
                 }
                 break;
-
             case GO_FORWARD:
-                if (drive.drive(52, DistanceUnit.INCH, 2)){
+                if (drive.drive(52, DistanceUnit.INCH)){
                     drive.resetEncoders();
-                    state = AutoState.ROTATE_B;
-
+                    state = AutoState.ROTATE_TO_LOADING_ZONE;
                 }
                 break;
-
-            case ROTATE_B:
-                double degreesToRotateB = 90;
+            case ROTATE_TO_LOADING_ZONE:
+                degreesToRotate = 90;
                 if (alliance == Alliance.RED){
-                    degreesToRotateB *= -1;
+                    degreesToRotate *= -1;
                 }
-                if (drive.rotate(degreesToRotateB, AngleUnit.DEGREES, 0.5)){
+                if (drive.rotate(degreesToRotate, AngleUnit.DEGREES)){
                     drive.resetEncoders();
                     state = AutoState.END;
                 }
                 break;
         }
-        drive.showDriveTelem();
-        shooter.showLauncherTelem();
+
+        drive.showTelemetry();
+        shooter.showTelemetry();
     }
 }
