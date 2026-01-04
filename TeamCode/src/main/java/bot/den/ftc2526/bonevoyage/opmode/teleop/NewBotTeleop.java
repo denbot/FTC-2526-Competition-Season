@@ -29,7 +29,7 @@ public class NewBotTeleop extends OpMode {
         else if(gamepad1.left_bumper){
             intake.outtake();
         }
-        else { //stop intake
+        else {
             intake.stopIntake();
         }
         intake.showTelemetry();
