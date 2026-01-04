@@ -14,7 +14,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import bot.den.ftc2526.bonevoyage.Constants;
 
-public class Shooter {
+public class Shooter implements BaseSubsystem{
     private enum LaunchState {
         IDLE,
         PREPARE,
@@ -60,7 +60,7 @@ public class Shooter {
         launcher.setVelocity(Constants.Shooter.launcherStopVelocityRpm);
     }
 
-    public void showLauncherTelem(){
+    public void showTelemetry(){
         telemetry.addData("motorSpeed", launcher.getVelocity());
         telemetry.addData("State", launchState);
     }

@@ -35,7 +35,7 @@ public class BaseTeleop extends OpMode {
         shooter.launch();
 
 
-        drive.showDriveTelem();
-        shooter.showLauncherTelem();
+        drive.showTelemetry();
+        shooter.showTelemetry();
     }
 }

@@ -9,7 +9,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import bot.den.ftc2526.bonevoyage.Constants;
 
-public class Intake {
+public class Intake implements BaseSubsystem{
     private final Telemetry telemetry;
     private DcMotor intakeMotor = null;
 
@@ -23,7 +23,7 @@ public class Intake {
         intakeMotor.setZeroPowerBehavior(BRAKE);
     }
 
-    public void showIntakeTelem(){
+    public void showTelemetry(){
         telemetry.addData("Intake", "Power (%.2f)", intakeMotor.getPower());
     }
 

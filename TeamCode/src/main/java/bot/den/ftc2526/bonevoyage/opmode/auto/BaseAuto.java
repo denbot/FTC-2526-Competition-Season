@@ -97,8 +97,8 @@ public class BaseAuto extends OpMode {
                 }
                 break;
         }
-        
-        drive.showDriveTelem();
-        shooter.showLauncherTelem();
+
+        drive.showTelemetry();
+        shooter.showTelemetry();
     }
 }

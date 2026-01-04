@@ -21,7 +21,7 @@ public class NewBotTeleop extends OpMode {
     @Override
     public void loop() {
         drive.arcadeDrive(-gamepad1.left_stick_y, gamepad1.right_stick_x);
-        drive.showDriveTelem();
+        drive.showTelemetry();
         if (gamepad1.left_trigger > .5) {
             intake.intake();
 
@@ -32,7 +32,7 @@ public class NewBotTeleop extends OpMode {
         else { //stop intake
             intake.stopIntake();
         }
-        intake.showIntakeTelem();
+        intake.showTelemetry();
         telemetry.addData("LeftTrigger",gamepad1.left_trigger);
     }
 }

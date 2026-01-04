@@ -12,7 +12,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 import bot.den.ftc2526.bonevoyage.Constants;
 
-public class Drive {
+public class Drive implements BaseSubsystem{
     private final Telemetry telemetry;
     private DcMotor leftDrive = null;
     private DcMotor rightDrive = null;
@@ -43,7 +43,7 @@ public class Drive {
         rightDrive.setPower(rightPower);
     }
 
-    public void showDriveTelem(){
+    public void showTelemetry(){
         telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
     }
 
