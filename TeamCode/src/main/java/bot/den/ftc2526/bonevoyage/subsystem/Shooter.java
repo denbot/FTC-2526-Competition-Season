@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package bot.den.ftc2526.bonevoyage.subsystem;
 
 import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE;
 
@@ -12,69 +12,59 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-public class ShooterSubsystem {
+import bot.den.ftc2526.bonevoyage.Constants;
+
+public class Shooter {
     private enum LaunchState {
         IDLE,
         PREPARE,
         LAUNCH,
     }
+
+    private final Telemetry telemetry;
     private LaunchState launchState;
     private final ElapsedTime feederTimer = new ElapsedTime();
     private final ElapsedTime shotTimer = new ElapsedTime();
-    private final Telemetry telemetry;
     private DcMotorEx launcher = null;
     private CRServo leftFeeder = null;
     private CRServo rightFeeder = null;
     private int numberOfArtifacts = 0;
-    public ShooterSubsystem (Telemetry telemetry){
+
+    public Shooter(Telemetry telemetry){
         this.telemetry=telemetry;
     }
+
     public void init (HardwareMap hardwareMap){
         launchState = LaunchState.IDLE;
-        launcher = hardwareMap.get(DcMotorEx.class, Constants.launcherName);
-        leftFeeder = hardwareMap.get(CRServo.class, Constants. leftShooterServoName);
-        rightFeeder = hardwareMap.get(CRServo.class, Constants.rightShooterServoName);
-        /*
-         * Here we set our launcher to the RUN_USING_ENCODER runmode.
-         * If you notice that you have no control over the velocity of the motor, it just jumps
-         * right to a number much higher than your set point, make sure that your encoders are plugged
-         * into the port right beside the motor itself. And that the motors polarity is consistent
-         * through any wiring.
-         */
-        launcher.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        launcher = hardwareMap.get(DcMotorEx.class, Constants.Robot.ConfigNames.launcher);
+        leftFeeder = hardwareMap.get(CRServo.class, Constants.Robot.ConfigNames.leftFeederServo);
+        rightFeeder = hardwareMap.get(CRServo.class, Constants.Robot.ConfigNames.rightFeederServo);
 
-        /*
-         * Setting zeroPowerBehavior to BRAKE enables a "brake mode". This causes the motor to
-         * slow down much faster when it is coasting. This creates a much more controllable
-         * drivetrain. As the robot stops much quicker.
-         */
+        launcher.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         launcher.setZeroPowerBehavior(BRAKE);
 
-        /*
-         * set Feeders to an initial value to initialize the servo controller
-         */
-        leftFeeder.setPower(Constants.shooterServoStopSpeed);
-        rightFeeder.setPower(Constants.shooterServoStopSpeed);
+        leftFeeder.setPower(Constants.Shooter.feederStopPower);
+        rightFeeder.setPower(Constants.Shooter.feederStopPower);
 
         launcher.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(300, 0, 0, 10));
 
-        /*
-         * Much like our drivetrain motors, we set the left feeder servo to reverse so that they
-         * both work to feed the ball into the robot.
-         */
         leftFeeder.setDirection(DcMotorSimple.Direction.REVERSE);
     }
+
     public void startLauncher(){
-        launcher.setVelocity(Constants.launcherTargetVelocity);
+        launcher.setVelocity(Constants.Shooter.launcherTargetVelocityRpm);
     }
+
     public void stopLauncher(){
-        launcher.setVelocity(Constants.launcherStopVelocity);
+        launcher.setVelocity(Constants.Shooter.launcherStopVelocityRpm);
     }
+
     public void showLauncherTelem(){
         telemetry.addData("motorSpeed", launcher.getVelocity());
         telemetry.addData("State", launchState);
     }
+
     public void launch(){
         switch (launchState) {
             case IDLE:
@@ -84,38 +74,41 @@ public class ShooterSubsystem {
                 }
                 break;
             case PREPARE:
-                launcher.setVelocity(Constants.launcherTargetVelocity);
-                if (launcher.getVelocity() > Constants.launcherMinVelocity){
+                launcher.setVelocity(Constants.Shooter.launcherTargetVelocityRpm);
+                if (launcher.getVelocity() > Constants.Shooter.launcherMinVelocityRpm){
                     launchState = LaunchState.LAUNCH;
-                    leftFeeder.setPower(1);
-                    rightFeeder.setPower(1);
+                    leftFeeder.setPower(Constants.Shooter.feederRunPower);
+                    rightFeeder.setPower(Constants.Shooter.feederRunPower);
                     feederTimer.reset();
                 }
                 break;
             case LAUNCH:
-                if (feederTimer.seconds() > Constants.feedTimeSeconds) {
-                    leftFeeder.setPower(0);
-                    rightFeeder.setPower(0);
+                if (feederTimer.seconds() > Constants.Shooter.feedTimeSeconds) {
+                    leftFeeder.setPower(Constants.Shooter.feederStopPower);
+                    rightFeeder.setPower(Constants.Shooter.feederStopPower);
 
-                    if(shotTimer.seconds() > Constants.timeBetweenLaunchesSeconds){
+                    if(shotTimer.seconds() > Constants.Shooter.launchTimeSeconds){
                         numberOfArtifacts--;
                         launchState = LaunchState.IDLE;
                     }
                 }
         }
     }
+
     public void requestShot(){
         numberOfArtifacts++;
-        if (numberOfArtifacts > 3){
-            numberOfArtifacts = 3;
+        if (numberOfArtifacts > Constants.Game.maxArtifacts){
+            numberOfArtifacts = Constants.Game.maxArtifacts;
         }
     }
+
     public void setNumberOfArtifacts(int shotsRequested){
         numberOfArtifacts = shotsRequested;
-        if (numberOfArtifacts > 3){
-            numberOfArtifacts = 3;
+        if (numberOfArtifacts > Constants.Game.maxArtifacts){
+            numberOfArtifacts = Constants.Game.maxArtifacts;
         }
     }
+
     public boolean doneShooting(){
         return numberOfArtifacts == 0;
     }
