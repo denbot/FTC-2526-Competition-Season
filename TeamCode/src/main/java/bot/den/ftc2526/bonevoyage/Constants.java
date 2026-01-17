@@ -30,6 +30,7 @@ public class Constants {
             public static final String leftFeederServo = "left_feeder";
             public static final String launcher = "launcher";
             public static final String intake = "intake";
+            public static final String limelight = "limelight";
         }
 
         private static final double wheelDiameterMM = 96;
