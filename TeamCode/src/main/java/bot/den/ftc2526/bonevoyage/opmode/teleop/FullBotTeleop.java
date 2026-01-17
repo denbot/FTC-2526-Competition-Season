@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import bot.den.ftc2526.bonevoyage.subsystem.Drive;
 import bot.den.ftc2526.bonevoyage.subsystem.Intake;
 import bot.den.ftc2526.bonevoyage.subsystem.Shooter;
+
 @TeleOp(name = "FullBotTeleop", group = "Denbot")
 public class FullBotTeleop extends OpMode {
     private final Drive drive = new Drive(telemetry);
@@ -45,7 +46,6 @@ public class FullBotTeleop extends OpMode {
             shooter.requestShot();
         }
         shooter.launch();
-
 
         drive.showTelemetry();
         shooter.showTelemetry();
