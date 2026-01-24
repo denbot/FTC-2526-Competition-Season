@@ -46,6 +46,6 @@ public class Constants {
         public static final double launcherMinVelocityRpm = 1075;
         public static final double launcherStopVelocityRpm = 0.0;
         public static final double feedTimeSeconds = 0.20;
-        public static final double launchTimeSeconds = 2.0;
+        public static final double launchTimeSeconds = 1.0;
     }
 }
