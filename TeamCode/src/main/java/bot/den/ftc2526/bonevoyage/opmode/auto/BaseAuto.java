@@ -10,9 +10,9 @@ import bot.den.ftc2526.bonevoyage.Alliance;
 import bot.den.ftc2526.bonevoyage.subsystem.Drive;
 import bot.den.ftc2526.bonevoyage.subsystem.Shooter;
 
-@Autonomous(name = "BaseAuto", group="Denbot", preselectTeleOp = "FullBotTeleop")
+@Autonomous(name = "BaseAuto", group = "Denbot", preselectTeleOp = "FullBotTeleop")
 public class BaseAuto extends OpMode {
-    private enum AutoState{
+    private enum AutoState {
         PREP,
         SHOOT,
         GO_BACK,
@@ -28,7 +28,7 @@ public class BaseAuto extends OpMode {
     private AutoState state = AutoState.PREP;
 
     @Override
-    public void init(){
+    public void init() {
         drive.init(hardwareMap);
         drive.resetEncoders();
         shooter.init(hardwareMap);
@@ -36,7 +36,7 @@ public class BaseAuto extends OpMode {
     }
 
     @Override
-    public void init_loop(){
+    public void init_loop() {
         if (gamepad1.circle) {
             alliance = Alliance.RED;
         } else if (gamepad1.cross) {
@@ -49,49 +49,49 @@ public class BaseAuto extends OpMode {
     }
 
     @Override
-    public void loop(){
+    public void loop() {
         double degreesToRotate = 0;
-        switch (state){
+        switch (state) {
             case PREP:
                 shooter.setNumberOfArtifacts(3);
                 state = AutoState.SHOOT;
                 break;
             case SHOOT:
                 shooter.launch();
-                if (shooter.doneShooting()){
+                if (shooter.doneShooting()) {
                     shooter.stopLauncher();
                     drive.resetEncoders();
                     state = AutoState.GO_BACK;
                 }
                 break;
             case GO_BACK:
-                if (drive.drive(-45, DistanceUnit.INCH)){
+                if (drive.drive(-45, DistanceUnit.INCH)) {
                     drive.resetEncoders();
                     state = AutoState.ROTATE_TO_BACK;
                 }
                 break;
             case ROTATE_TO_BACK:
                 degreesToRotate = 135;
-                if (alliance == Alliance.RED){
+                if (alliance == Alliance.RED) {
                     degreesToRotate *= -1;
                 }
-                if (drive.rotate(degreesToRotate, AngleUnit.DEGREES)){
+                if (drive.rotate(degreesToRotate, AngleUnit.DEGREES)) {
                     drive.resetEncoders();
                     state = AutoState.GO_FORWARD;
                 }
                 break;
             case GO_FORWARD:
-                if (drive.drive(52, DistanceUnit.INCH)){
+                if (drive.drive(52, DistanceUnit.INCH)) {
                     drive.resetEncoders();
                     state = AutoState.ROTATE_TO_LOADING_ZONE;
                 }
                 break;
             case ROTATE_TO_LOADING_ZONE:
                 degreesToRotate = 90;
-                if (alliance == Alliance.RED){
+                if (alliance == Alliance.RED) {
                     degreesToRotate *= -1;
                 }
-                if (drive.rotate(degreesToRotate, AngleUnit.DEGREES)){
+                if (drive.rotate(degreesToRotate, AngleUnit.DEGREES)) {
                     drive.resetEncoders();
                     state = AutoState.END;
                 }

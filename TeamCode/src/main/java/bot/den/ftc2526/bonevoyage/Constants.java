@@ -35,7 +35,7 @@ public class Constants {
 
         private static final double wheelDiameterMM = 96;
         private static final double encoderTicksPerRev = 537.7;
-        public static final double ticksPerMM = encoderTicksPerRev/(wheelDiameterMM * Math.PI);
+        public static final double ticksPerMM = encoderTicksPerRev / (wheelDiameterMM * Math.PI);
         public static final double trackWidthMM = 449;
     }
 
@@ -45,7 +45,7 @@ public class Constants {
         public static final double launcherTargetVelocityRpm = 1125;
         public static final double launcherMinVelocityRpm = 1075;
         public static final double launcherStopVelocityRpm = 0.0;
-        public static final double feedTimeSeconds = 1;
+        public static final double feedTimeSeconds = 0.20;
         public static final double launchTimeSeconds = 1.0;
     }
 }
