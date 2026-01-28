@@ -27,11 +27,17 @@ public class TestTeleop extends OpMode {
     }
     public void turnBot(){
         double offset = limelight.getOffset();
+        double distance = limelight.getDistance();
         if (Math.abs(offset)>1){
             double direction = Math.abs(offset)/offset;
             drive.arcadeDrive(0,.2*direction);
             telemetry.addData("offset", offset);
             telemetry.addData("direction", direction);
+        } else if (Math.abs(distance)>1) {
+            drive.arcadeDrive(.2,0);
+        } else{
+            drive.arcadeDrive(0,0);
         }
+        telemetry.addData("distance", distance);
     }
 }

@@ -50,6 +50,7 @@ public class Shooter implements BaseSubsystem{
         launcher.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(300, 0, 0, 10));
 
         leftFeeder.setDirection(DcMotorSimple.Direction.REVERSE);
+        launcher.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
     public void startLauncher(){
@@ -59,7 +60,10 @@ public class Shooter implements BaseSubsystem{
     public void stopLauncher(){
         launcher.setVelocity(Constants.Shooter.launcherStopVelocityRpm);
     }
-
+    public void runFeederReverse(){
+        rightFeeder.setPower(-Constants.Shooter.feederRunPower);
+        leftFeeder.setPower(-Constants.Shooter.feederRunPower);
+    };
     public void showTelemetry(){
         telemetry.addData("motorSpeed", launcher.getVelocity());
         telemetry.addData("State", launchState);

@@ -27,6 +27,7 @@ public class FullBotTeleop extends OpMode {
         drive.showTelemetry();
         if (gamepad1.left_trigger > .5) {
             intake.intake();
+            shooter.runFeederReverse();
 
         } else if (gamepad1.left_bumper) {
             intake.outtake();

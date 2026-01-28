@@ -34,6 +34,7 @@ public void init(HardwareMap hardwareMap){
                 telemetry.addData("tx", result.getTx());
                 telemetry.addData("ty", result.getTy());
                 telemetry.addData("Botpose", botpose.toString());
+                telemetry.addData("Distance", result.getBotposeAvgDist());
             }
         }
     }
