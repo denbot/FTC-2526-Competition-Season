@@ -20,7 +20,6 @@ public class Limelight implements BaseSubsystem{
     }
 public void init(HardwareMap hardwareMap){
     limelight = hardwareMap.get(Limelight3A.class, Constants.Robot.ConfigNames.limelight);
-    telemetry. setMsTransmissionInterval(11);
     limelight.pipelineSwitch(0);
     limelight.start();
 }

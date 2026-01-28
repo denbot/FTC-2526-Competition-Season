@@ -23,21 +23,37 @@ public class TestTeleop extends OpMode {
         drive.showTelemetry();
         limelight.showTelemetry();
         if (gamepad1.circle) turnBot();
-
+        if (!gamepad1.circle) drive.arcadeDrive( 0,0);
     }
     public void turnBot(){
         double offset = limelight.getOffset();
-        double distance = limelight.getDistance();
-        if (Math.abs(offset)>1){
-            double direction = Math.abs(offset)/offset;
-            drive.arcadeDrive(0,.2*direction);
-            telemetry.addData("offset", offset);
-            telemetry.addData("direction", direction);
-        } else if (Math.abs(distance)>1) {
-            drive.arcadeDrive(.2,0);
-        } else{
-            drive.arcadeDrive(0,0);
+        double distance = limelight.getDistance()-1;
+        double forwardPower = 0;
+        double turnPower = 0;
+        double offsetDirection = Math.abs(offset)/offset;
+        double distanceDirection = Math.abs(distance)/distance;
+        if (Math.abs(offset)>20){
+            turnPower = 0.5 * offsetDirection;
         }
+        else if (Math.abs(offset)>10){
+            turnPower = 0.3 * offsetDirection;
+        }
+        else if (Math.abs(offset)>1){
+            turnPower = 0.15 * offsetDirection;
+        }
+        if (distance != -1){
+            if (Math.abs(distance)>1){
+                forwardPower = 0.7 * distanceDirection;
+            }
+            else if (Math.abs(distance)>0.5){
+                forwardPower = 0.5 * distanceDirection;
+            }
+            else if (Math.abs(distance)>0.1){
+                forwardPower = 0.1 * distanceDirection;
+            }
+        }
+        drive.arcadeDrive (forwardPower, turnPower);
+        telemetry.addData("offset", offset);
         telemetry.addData("distance", distance);
     }
 }
