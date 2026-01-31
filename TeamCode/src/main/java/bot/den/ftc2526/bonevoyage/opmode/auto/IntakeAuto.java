@@ -87,7 +87,7 @@ public class IntakeAuto extends OpMode {
                 }
                 break;
             case COLLECT:
-                if (drive.drive(34, DistanceUnit.INCH)) {
+                if (drive.driveSlow(34, DistanceUnit.INCH)) {
                     drive.resetEncoders();
                     intake.stopIntake();
                     shooter.runFeederReverse();
