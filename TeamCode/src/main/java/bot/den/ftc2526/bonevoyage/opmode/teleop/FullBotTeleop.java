@@ -57,7 +57,6 @@ public class FullBotTeleop extends OpMode {
         }
         else if(gamepad1.square) {
             shooter.reverseShooter();
-            shooter.runFeederReverse();
         }
         else {
             shooter.stop();
