@@ -47,7 +47,8 @@ public class Drive implements BaseSubsystem{
         telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
     }
 
-    public boolean drive(double distance, DistanceUnit unit){
+    private boolean driveInternal(double distance, DistanceUnit unit, double power){
+
         double targetPosition = (unit.toMm(distance) * Constants.Robot.ticksPerMM);
 
         leftDrive.setTargetPosition((int) targetPosition);
@@ -56,14 +57,24 @@ public class Drive implements BaseSubsystem{
         leftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        leftDrive.setPower(Constants.Drive.Auto.moveSpeed);
-        rightDrive.setPower(Constants.Drive.Auto.moveSpeed);
+        leftDrive.setPower(power);
+        rightDrive.setPower(power);
 
         if(Math.abs(targetPosition - leftDrive.getCurrentPosition()) > (Constants.Drive.Auto.toleranceMM * Constants.Robot.ticksPerMM)){
             holdTimer.reset();
         }
 
         return (holdTimer.seconds() > Constants.Drive.Auto.holdSeconds);
+    }
+
+    public boolean drive(double distance, DistanceUnit unit) {
+        return driveFast(distance, unit);
+    }
+    public boolean driveFast (double distance, DistanceUnit unit) {
+        return driveInternal(distance, unit, Constants.Drive.Auto.moveFastSpeed);
+    }
+    public boolean driveSlow (double distance, DistanceUnit unit) {
+        return driveInternal(distance, unit, Constants.Drive.Auto.moveSlowSpeed);
     }
 
     public void resetEncoders(){

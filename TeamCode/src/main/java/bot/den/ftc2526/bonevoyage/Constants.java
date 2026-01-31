@@ -4,7 +4,8 @@ public class Constants {
     public static class Drive {
         public static class Auto {
             public static final double toleranceMM = 10;
-            public static final double moveSpeed = 0.5;
+            public static final double moveFastSpeed = 0.5;
+            public static final double moveSlowSpeed = 0.2;
             public static final double turnSpeed = 0.2;
             public static final double holdSeconds = 0.5;
         }
@@ -19,7 +20,7 @@ public class Constants {
     public static class Intake {
         public static final double slowIntakePower = 0.15;
         public static final double outtakePower = -1.0;
-        public static final double intakePower = 0.7;
+        public static final double intakePower = 1.0;
         public static final double stopPower = 0.0;
     }
 
