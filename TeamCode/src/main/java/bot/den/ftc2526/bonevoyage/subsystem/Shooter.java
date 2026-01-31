@@ -116,4 +116,20 @@ public class Shooter implements BaseSubsystem{
     public boolean doneShooting(){
         return numberOfArtifacts == 0;
     }
+
+    public void stop(){
+        stopLauncher();
+        leftFeeder.setPower(Constants.Shooter.feederStopPower);
+        rightFeeder.setPower(Constants.Shooter.feederStopPower);
+    }
+
+    public void runFeederSlowIn() {
+        leftFeeder.setPower(Constants.Shooter.feederSlowPower);
+        rightFeeder.setPower(Constants.Shooter.feederSlowPower);
+    }
+    public void reverseShooter() {
+        leftFeeder.setPower(Constants.Shooter.feederReversePower);
+        rightFeeder.setPower(Constants.Shooter.feederReversePower);
+        launcher.setPower(Constants.Shooter.launcherReversePower);
+    }
 }

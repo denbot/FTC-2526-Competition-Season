@@ -25,27 +25,34 @@ public class FullBotTeleop extends OpMode {
     public void loop() {
         drive.arcadeDrive(-gamepad1.left_stick_y, gamepad1.right_stick_x);
 
-        drive.showTelemetry();
-        if (gamepad1.left_trigger > .5) {
-            intake.intake();
-            shooter.runFeederReverse();
-
+        if (gamepad1.circle) {
+            intake.stopIntake();
+        } else if (!shooter.doneShooting()) {
+            intake.slowIntake();
         } else if (gamepad1.left_bumper) {
+            intake.intake();
+        } else if (gamepad1.left_trigger > .5) {
             intake.outtake();
         } else {
             intake.stopIntake();
         }
 
-        if (gamepad1.y) {
+        if (gamepad1.circle) {
+            shooter.stop();
+        } else if (gamepad1.y) {
             shooter.startLauncher();
-        } else if (gamepad1.b) {
-            shooter.stopLauncher();
-        }
-
-        if (gamepad1.rightBumperWasPressed()) {
+        } else if (gamepad1.right_bumper) {
             shooter.requestShot();
+        } else if (gamepad1.left_bumper) {
+            shooter.runFeederSlowIn();
+        } else if (!shooter.doneShooting()) {
+            shooter.launch();
+        } else if (gamepad1.square) {
+            shooter.reverseShooter();
+            shooter.runFeederReverse();
+        } else {
+            shooter.stop();
         }
-        shooter.launch();
 
         drive.showTelemetry();
         shooter.showTelemetry();
