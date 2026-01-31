@@ -30,7 +30,7 @@ public class Intake implements BaseSubsystem{
     public void intake(){
          intakeMotor.setPower(Constants.Intake.intakePower);
     }
-
+    public void slowIntake() {intakeMotor.setPower(Constants.Intake.slowIntakePower);}
     public void outtake(){
         intakeMotor.setPower(Constants.Intake.outtakePower);
     }
