@@ -41,7 +41,9 @@ public class FullBotTeleop extends OpMode {
             shooter.stop();
         } else if (gamepad1.y) {
             shooter.startLauncher();
-        } else if (gamepad1.right_bumper) {
+        }
+
+        if (gamepad1.rightBumperWasPressed()) {
             shooter.requestShot();
         } else if (gamepad1.left_bumper) {
             shooter.runFeederSlowIn();

@@ -61,8 +61,8 @@ public class Shooter implements BaseSubsystem{
         launcher.setVelocity(Constants.Shooter.launcherStopVelocityRpm);
     }
     public void runFeederReverse(){
-        rightFeeder.setPower(-Constants.Shooter.feederRunPower);
-        leftFeeder.setPower(-Constants.Shooter.feederRunPower);
+        rightFeeder.setPower(Constants.Shooter.feederReversePower);
+        leftFeeder.setPower(Constants.Shooter.feederReversePower);
     };
     public void showTelemetry(){
         telemetry.addData("motorSpeed", launcher.getVelocity());
@@ -79,6 +79,7 @@ public class Shooter implements BaseSubsystem{
                 break;
             case PREPARE:
                 launcher.setVelocity(Constants.Shooter.launcherTargetVelocityRpm);
+                runFeederReverse();
                 if (launcher.getVelocity() > Constants.Shooter.launcherMinVelocityRpm){
                     launchState = LaunchState.LAUNCH;
                     leftFeeder.setPower(Constants.Shooter.feederRunPower);
@@ -88,11 +89,11 @@ public class Shooter implements BaseSubsystem{
                 break;
             case LAUNCH:
                 if (feederTimer.seconds() > Constants.Shooter.feedTimeSeconds) {
-                    leftFeeder.setPower(Constants.Shooter.feederStopPower);
-                    rightFeeder.setPower(Constants.Shooter.feederStopPower);
-
+                    runFeederReverse();
                     if(shotTimer.seconds() > Constants.Shooter.launchTimeSeconds){
                         numberOfArtifacts--;
+                        leftFeeder.setPower(Constants.Shooter.feederStopPower);
+                        rightFeeder.setPower(Constants.Shooter.feederStopPower);
                         launchState = LaunchState.IDLE;
                     }
                 }
