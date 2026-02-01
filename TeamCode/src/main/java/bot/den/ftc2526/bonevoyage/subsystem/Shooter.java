@@ -131,6 +131,6 @@ public class Shooter implements BaseSubsystem{
     public void reverseShooter() {
         leftFeeder.setPower(Constants.Shooter.feederReversePower);
         rightFeeder.setPower(Constants.Shooter.feederReversePower);
-        launcher.setPower(Constants.Shooter.launcherReversePower);
+        launcher.setVelocity(Constants.Shooter.launcherReverseSpeed);
     }
 }
