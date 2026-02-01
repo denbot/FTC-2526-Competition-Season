@@ -36,6 +36,9 @@ public class FullBotTeleop extends OpMode {
         else if(gamepad1.left_trigger > .5) {
             intake.outtake();
         }
+        else if(gamepad1.square) {
+            intake.slowIntake();
+        }
         else {
             intake.stopIntake();
         }
@@ -46,7 +49,7 @@ public class FullBotTeleop extends OpMode {
         else if(gamepad1.y) {
             shooter.startLauncher();
         }
-        else if(gamepad1.right_bumper) {
+        else if(gamepad1.rightBumperWasPressed()) {
             shooter.requestShot();
         }
         else if(gamepad1.left_bumper) {

@@ -87,7 +87,7 @@ public class IntakeAuto extends OpMode {
                 }
                 break;
             case COLLECT:
-                if (drive.driveSlow(34, DistanceUnit.INCH)) {
+                if (drive.driveSlow(36, DistanceUnit.INCH)) {
                     drive.resetEncoders();
                     intake.stopIntake();
                     shooter.runFeederReverse();
@@ -95,7 +95,7 @@ public class IntakeAuto extends OpMode {
                 }
                 break;
             case BACKUP_B:
-                if (drive.drive(-40, DistanceUnit.INCH)) {
+                if (drive.drive(-37, DistanceUnit.INCH)) {
                     drive.resetEncoders();
                     shooter.stop();
                     state = AutoState.ROTATE_B;
@@ -112,7 +112,7 @@ public class IntakeAuto extends OpMode {
                 }
                 break;
             case FORWARD:
-                if (drive.drive(52, DistanceUnit.INCH)) {
+                if (drive.drive(50, DistanceUnit.INCH)) {
                     shooter.setNumberOfArtifacts(3);
                     drive.resetEncoders();
                     state = AutoState.SHOOT_B;
@@ -120,10 +120,12 @@ public class IntakeAuto extends OpMode {
                 break;
             case SHOOT_B:
                 shooter.launch();
+                intake.slowIntake();
                 if (shooter.doneShooting()) {
                     shooter.stopLauncher();
                     drive.resetEncoders();
                     state = AutoState.OUT_OF_WAY;
+                    intake.stopIntake();
                 }
                 break;
             case OUT_OF_WAY:
