@@ -27,9 +27,6 @@ public class FullBotTeleop extends OpMode {
         if(gamepad1.circle) {
             intake.stopIntake();
         }
-        else if(!shooter.doneShooting()) {
-            intake.slowIntake();
-        }
         else if(gamepad1.left_bumper) {
             intake.intake();
         }

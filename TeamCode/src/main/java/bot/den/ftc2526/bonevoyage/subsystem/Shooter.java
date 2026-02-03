@@ -79,7 +79,8 @@ public class Shooter implements BaseSubsystem{
                 break;
             case PREPARE:
                 launcher.setVelocity(Constants.Shooter.launcherTargetVelocityRpm);
-                runFeederReverse();
+//                leftFeeder.setPower(Constants.Shooter.feederSlowReversePower);
+//                rightFeeder.setPower(Constants.Shooter.feederSlowReversePower);
                 if (launcher.getVelocity() > Constants.Shooter.launcherMinVelocityRpm){
                     launchState = LaunchState.LAUNCH;
                     leftFeeder.setPower(Constants.Shooter.feederRunPower);
@@ -89,7 +90,10 @@ public class Shooter implements BaseSubsystem{
                 break;
             case LAUNCH:
                 if (feederTimer.seconds() > Constants.Shooter.feedTimeSeconds) {
-                    runFeederReverse();
+                    leftFeeder.setPower(Constants.Shooter.feederStopPower);
+                    rightFeeder.setPower(Constants.Shooter.feederStopPower);
+//                    leftFeeder.setPower(Constants.Shooter.feederSlowReversePower);
+//                    rightFeeder.setPower(Constants.Shooter.feederSlowReversePower);
                     if(shotTimer.seconds() > Constants.Shooter.launchTimeSeconds){
                         numberOfArtifacts--;
                         leftFeeder.setPower(Constants.Shooter.feederStopPower);
