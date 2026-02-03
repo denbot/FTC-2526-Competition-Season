@@ -18,8 +18,8 @@ public class Constants {
     }
 
     public static class Intake {
-        public static final double slowIntakePower = 0.3;
-        public static final double outtakePower = -1.0;
+        public static final double slowIntakePower = 0.7;
+        public static final double outtakePower = -5.0;
         public static final double intakePower = 1.0;
         public static final double stopPower = 0.0;
     }
@@ -44,13 +44,14 @@ public class Constants {
     public static class Shooter {
         public static final double launcherReverseSpeed = -540;
         public static final double feederReversePower = -0.4;
+        public static final double feederSlowReversePower = -0.2;
         public static final double feederSlowPower = 0.4;
         public static final double feederStopPower = 0.0;
         public static final double feederRunPower = 1.0;
         public static final double launcherTargetVelocityRpm = 1125;
         public static final double launcherMinVelocityRpm = 1075;
         public static final double launcherStopVelocityRpm = 0.0;
-        public static final double feedTimeSeconds = 0.3;
-        public static final double launchTimeSeconds = 1.25;
+        public static final double feedTimeSeconds = 0.25;
+        public static final double launchTimeSeconds = 1;
     }
 }
