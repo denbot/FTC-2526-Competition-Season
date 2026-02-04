@@ -11,7 +11,7 @@ import bot.den.ftc2526.bonevoyage.subsystem.Drive;
 import bot.den.ftc2526.bonevoyage.subsystem.Intake;
 import bot.den.ftc2526.bonevoyage.subsystem.Shooter;
 
-@Autonomous(name = "IntakeAuto", group="Denbot", preselectTeleOp = "IntakeAuto")
+@Autonomous(name = "IntakeAuto", group="Denbot", preselectTeleOp = "FullBotTeleop")
 public class IntakeAuto extends OpMode {
     private enum AutoState {
          PREP,
@@ -83,21 +83,21 @@ public class IntakeAuto extends OpMode {
                 if (drive.rotate(degreesToRotate, AngleUnit.DEGREES)) {
                     drive.resetEncoders();
                     state = AutoState.COLLECT;
-                    intake.intake();
                 }
                 break;
             case COLLECT:
+                intake.intake();
+                shooter.runFeederSlowIn();
                 if (drive.driveSlow(36, DistanceUnit.INCH)) {
                     drive.resetEncoders();
-                    intake.stopIntake();
-                    shooter.runFeederReverse();
                     state = AutoState.BACKUP_B;
                 }
                 break;
             case BACKUP_B:
+                intake.slowIntake();
+                shooter.reverseShooter();
                 if (drive.drive(-37, DistanceUnit.INCH)) {
                     drive.resetEncoders();
-                    shooter.stop();
                     state = AutoState.ROTATE_B;
                 }
                 break;
@@ -112,6 +112,8 @@ public class IntakeAuto extends OpMode {
                 }
                 break;
             case FORWARD:
+                intake.stopIntake();
+                shooter.stop();
                 if (drive.drive(50, DistanceUnit.INCH)) {
                     shooter.setNumberOfArtifacts(3);
                     drive.resetEncoders();
@@ -120,7 +122,6 @@ public class IntakeAuto extends OpMode {
                 break;
             case SHOOT_B:
                 shooter.launch();
-                intake.slowIntake();
                 if (shooter.doneShooting()) {
                     shooter.stopLauncher();
                     drive.resetEncoders();
@@ -142,7 +143,7 @@ public class IntakeAuto extends OpMode {
             }
             break;
             case OUT_OF_WAY_C:
-                if (drive.drive(50, DistanceUnit.INCH)) {
+                if (drive.drive(40, DistanceUnit.INCH)) {
                     drive.resetEncoders();
                     state = AutoState.END;
                 }
