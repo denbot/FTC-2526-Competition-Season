@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import bot.den.ftc2526.bonevoyage.subsystem.Drive;
 import bot.den.ftc2526.bonevoyage.subsystem.Limelight;
 
-@TeleOp
+@TeleOp(name="Limelight Following")
 public class TestTeleop extends OpMode {
     private final Drive drive = new Drive(telemetry);
     private Limelight limelight = new Limelight(telemetry);
@@ -15,15 +15,13 @@ public class TestTeleop extends OpMode {
         limelight.init(hardwareMap);
         drive.init(hardwareMap);
         telemetry.addData("Status", "Initialized");
-
     }
 
     @Override
     public void loop() {
         drive.showTelemetry();
         limelight.showTelemetry();
-        if (gamepad1.circle) turnBot();
-        if (!gamepad1.circle) drive.arcadeDrive( 0,0);
+        turnBot();
     }
     public void turnBot(){
         double offset = limelight.getOffset();

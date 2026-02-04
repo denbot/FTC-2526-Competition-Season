@@ -74,7 +74,7 @@ public class Shooter implements BaseSubsystem{
             case IDLE:
                 if (numberOfArtifacts > 0) {
                     launchState = LaunchState.PREPARE;
-                    shotTimer.reset();
+
                 }
                 break;
             case PREPARE:
@@ -83,6 +83,7 @@ public class Shooter implements BaseSubsystem{
 //                rightFeeder.setPower(Constants.Shooter.feederSlowReversePower);
                 if (launcher.getVelocity() > Constants.Shooter.launcherMinVelocityRpm){
                     launchState = LaunchState.LAUNCH;
+                    shotTimer.reset();
                     leftFeeder.setPower(Constants.Shooter.feederRunPower);
                     rightFeeder.setPower(Constants.Shooter.feederRunPower);
                     feederTimer.reset();
