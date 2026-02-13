@@ -7,7 +7,7 @@ import bot.den.ftc2526.bonevoyage.subsystem.Drive;
 import bot.den.ftc2526.bonevoyage.subsystem.Limelight;
 
 @TeleOp
-public class TestTeleop extends OpMode {
+public class FollowLimelight extends OpMode {
     private final Drive drive = new Drive(telemetry);
     private Limelight limelight = new Limelight(telemetry);
     @Override
@@ -22,12 +22,11 @@ public class TestTeleop extends OpMode {
     public void loop() {
         drive.showTelemetry();
         limelight.showTelemetry();
-        if (gamepad1.circle) turnBot();
-        if (!gamepad1.circle) drive.arcadeDrive( 0,0);
+        turnBot(-1);
     }
-    public void turnBot(){
+    public void turnBot(double metersToStayAway){
         double offset = limelight.getOffset();
-        double distance = limelight.getDistance()-1;
+        double distance = limelight.getDistance()-metersToStayAway;
         double forwardPower = 0;
         double turnPower = 0;
         double offsetDirection = Math.abs(offset)/offset;
@@ -41,7 +40,7 @@ public class TestTeleop extends OpMode {
         else if (Math.abs(offset)>1){
             turnPower = 0.15 * offsetDirection;
         }
-        if (distance != -1){
+        if (distance != -metersToStayAway){
             if (Math.abs(distance)>1){
                 forwardPower = 0.7 * distanceDirection;
             }

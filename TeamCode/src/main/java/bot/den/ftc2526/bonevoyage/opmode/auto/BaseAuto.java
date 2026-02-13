@@ -10,7 +10,7 @@ import bot.den.ftc2526.bonevoyage.Alliance;
 import bot.den.ftc2526.bonevoyage.subsystem.Drive;
 import bot.den.ftc2526.bonevoyage.subsystem.Shooter;
 
-@Autonomous(name = "BaseAuto", group="Denbot", preselectTeleOp = "BaseTeleop")
+@Autonomous(name = "BaseAuto", group="Denbot", preselectTeleOp = "FullBotTeleop")
 public class BaseAuto extends OpMode {
     private enum AutoState{
         PREP,
