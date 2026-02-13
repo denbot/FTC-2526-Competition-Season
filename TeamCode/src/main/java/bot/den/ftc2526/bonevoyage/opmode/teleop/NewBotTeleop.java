@@ -1,5 +1,6 @@
 package bot.den.ftc2526.bonevoyage.opmode.teleop;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -7,6 +8,7 @@ import bot.den.ftc2526.bonevoyage.subsystem.Drive;
 import bot.den.ftc2526.bonevoyage.subsystem.Intake;
 
 @TeleOp(name = "NewBotTeleop", group = "Denbot")
+@Disabled
 public class NewBotTeleop extends OpMode {
     private final Drive drive = new Drive(telemetry);
     private final Intake intake = new Intake(telemetry);

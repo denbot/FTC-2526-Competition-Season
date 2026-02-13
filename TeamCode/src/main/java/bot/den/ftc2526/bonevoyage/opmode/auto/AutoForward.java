@@ -7,7 +7,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 import bot.den.ftc2526.bonevoyage.subsystem.Drive;
 
-@Autonomous(name = "AutoForward", group = "DenBot")
+@Autonomous(name = "AutoForward", group = "DenBot", preselectTeleOp = "FullBotTeleop")
 
 public class AutoForward extends OpMode {
     private enum AutoState{

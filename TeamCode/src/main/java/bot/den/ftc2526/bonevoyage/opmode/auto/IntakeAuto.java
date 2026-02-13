@@ -130,13 +130,16 @@ public class IntakeAuto extends OpMode {
                 }
                 break;
             case OUT_OF_WAY:
-                if (drive.drive(-49, DistanceUnit.INCH)) {
+                if (drive.drive(-40, DistanceUnit.INCH)) {
                     drive.resetEncoders();
                     state = AutoState.OUT_OF_WAY_B;
                 }
                 break;
             case OUT_OF_WAY_B:
                 degreesToRotate = 135;
+                if (alliance == Alliance.RED) {
+                    degreesToRotate *= -1;
+                }
             if (drive.rotate(degreesToRotate, AngleUnit.DEGREES)) {
                 drive.resetEncoders();
                 state = AutoState.OUT_OF_WAY_C;
