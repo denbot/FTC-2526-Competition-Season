@@ -19,7 +19,7 @@ public class Constants {
 
     public static class Intake {
         public static final double slowIntakePower = 0.7;
-        public static final double outtakePower = -5.0;
+        public static final double outtakePower = -0.5;
         public static final double intakePower = 1.0;
         public static final double stopPower = 0.0;
     }
