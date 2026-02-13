@@ -30,6 +30,7 @@ public class Constants {
             public static final String leftFeederServo = "left_feeder";
             public static final String launcher = "launcher";
             public static final String intake = "intake";
+            public static final String limelight = "limelight";
         }
 
         private static final double wheelDiameterMM = 96;
@@ -44,7 +45,7 @@ public class Constants {
         public static final double launcherTargetVelocityRpm = 1125;
         public static final double launcherMinVelocityRpm = 1075;
         public static final double launcherStopVelocityRpm = 0.0;
-        public static final double feedTimeSeconds = 0.20;
-        public static final double launchTimeSeconds = 2.0;
+        public static final double feedTimeSeconds = 1;
+        public static final double launchTimeSeconds = 1.0;
     }
 }
