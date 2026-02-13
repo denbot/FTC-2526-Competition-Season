@@ -61,8 +61,8 @@ public class Shooter implements BaseSubsystem{
         launcher.setVelocity(Constants.Shooter.launcherStopVelocityRpm);
     }
     public void runFeederReverse(){
-        rightFeeder.setPower(-Constants.Shooter.feederRunPower);
-        leftFeeder.setPower(-Constants.Shooter.feederRunPower);
+        rightFeeder.setPower(Constants.Shooter.feederReversePower);
+        leftFeeder.setPower(Constants.Shooter.feederReversePower);
     };
     public void showTelemetry(){
         telemetry.addData("motorSpeed", launcher.getVelocity());
@@ -74,13 +74,14 @@ public class Shooter implements BaseSubsystem{
             case IDLE:
                 if (numberOfArtifacts > 0) {
                     launchState = LaunchState.PREPARE;
-                    shotTimer.reset();
+
                 }
                 break;
             case PREPARE:
                 launcher.setVelocity(Constants.Shooter.launcherTargetVelocityRpm);
                 if (launcher.getVelocity() > Constants.Shooter.launcherMinVelocityRpm){
                     launchState = LaunchState.LAUNCH;
+                    shotTimer.reset();
                     leftFeeder.setPower(Constants.Shooter.feederRunPower);
                     rightFeeder.setPower(Constants.Shooter.feederRunPower);
                     feederTimer.reset();
@@ -90,9 +91,10 @@ public class Shooter implements BaseSubsystem{
                 if (feederTimer.seconds() > Constants.Shooter.feedTimeSeconds) {
                     leftFeeder.setPower(Constants.Shooter.feederStopPower);
                     rightFeeder.setPower(Constants.Shooter.feederStopPower);
-
                     if(shotTimer.seconds() > Constants.Shooter.launchTimeSeconds){
                         numberOfArtifacts--;
+                        leftFeeder.setPower(Constants.Shooter.feederStopPower);
+                        rightFeeder.setPower(Constants.Shooter.feederStopPower);
                         launchState = LaunchState.IDLE;
                     }
                 }
@@ -115,5 +117,21 @@ public class Shooter implements BaseSubsystem{
 
     public boolean doneShooting(){
         return numberOfArtifacts == 0;
+    }
+
+    public void stop(){
+        stopLauncher();
+        leftFeeder.setPower(Constants.Shooter.feederStopPower);
+        rightFeeder.setPower(Constants.Shooter.feederStopPower);
+    }
+
+    public void runFeederSlowIn() {
+        leftFeeder.setPower(Constants.Shooter.feederSlowPower);
+        rightFeeder.setPower(Constants.Shooter.feederSlowPower);
+    }
+    public void reverseShooter() {
+        leftFeeder.setPower(Constants.Shooter.feederReversePower);
+        rightFeeder.setPower(Constants.Shooter.feederReversePower);
+        launcher.setVelocity(Constants.Shooter.launcherReverseSpeed);
     }
 }
