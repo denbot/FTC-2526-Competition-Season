@@ -44,7 +44,6 @@ public class Constants {
     public static class Shooter {
         public static final double launcherReverseSpeed = -540;
         public static final double feederReversePower = -0.4;
-        public static final double feederSlowReversePower = -0.2;
         public static final double feederSlowPower = 0.4;
         public static final double feederStopPower = 0.0;
         public static final double feederRunPower = 1.0;
@@ -52,6 +51,6 @@ public class Constants {
         public static final double launcherMinVelocityRpm = 1100;
         public static final double launcherStopVelocityRpm = 0.0;
         public static final double feedTimeSeconds = 0.25;
-        public static final double launchTimeSeconds = 1;
+        public static final double launchTimeSeconds = 0.75;
     }
 }
