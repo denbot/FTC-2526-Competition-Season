@@ -1,26 +1,35 @@
 package bot.den.ftc2526.bonevoyage.opmode.teleop;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gamepad1;
+
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import bot.den.ftc2526.bonevoyage.subsystem.Drive;
 import bot.den.ftc2526.bonevoyage.subsystem.Intake;
 import bot.den.ftc2526.bonevoyage.subsystem.Shooter;
+import bot.den.ftc2526.bonevoyage.subsystem.Spinnythingy;
 
 @TeleOp(name = "FullBotTeleop", group = "Denbot")
 public class FullBotTeleop extends OpMode {
+    private final Spinnythingy spinnythingy = new Spinnythingy(telemetry);
     private final Drive drive = new Drive(telemetry);
     private final Shooter shooter = new Shooter(telemetry);
     private final Intake intake = new Intake(telemetry);
 
     @Override
     public void init() {
+        spinnythingy.init(hardwareMap);
         drive.init(hardwareMap);
         shooter.init(hardwareMap);
         intake.init(hardwareMap);
         telemetry.addData("Status", "Initialized");
     }
 
+    @Override
+    public void start(){
+        spinnythingy.startSpinning();
+    }
     @Override
     public void loop() {
         drive.arcadeDrive(-gamepad1.left_stick_y, gamepad1.right_stick_x);
@@ -54,6 +63,11 @@ public class FullBotTeleop extends OpMode {
             shooter.stop();
         }
 
+            if (gamepad1.y) {
+                spinnythingy.reverseDirection();
+            }
+        }
+        spinnythingy.showTelemetry();
         drive.showTelemetry();
         shooter.showTelemetry();
     }

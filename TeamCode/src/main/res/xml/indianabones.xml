@@ -8,6 +8,7 @@
             <goBILDA5202SeriesMotor name="intake" port="3" />
             <ContinuousRotationServo name="right_feeder" port="0" />
             <ContinuousRotationServo name="left_feeder" port="1" />
+            <ContinuousRotationServo name="spinnything" port="5" />
             <ControlHubImuBHI260AP name="imu" port="0" bus="0" />
         </LynxModule>
     </LynxUsbDevice>

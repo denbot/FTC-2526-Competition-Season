@@ -33,6 +33,7 @@ public class Constants {
             public static final String launcher = "launcher";
             public static final String intake = "intake";
             public static final String limelight = "limelight";
+            public static final String spinnything = "spinnything";
         }
 
         private static final double wheelDiameterMM = 96;
@@ -53,5 +54,9 @@ public class Constants {
         public static final double launcherStopVelocityRpm = 0.0;
         public static final double feedTimeSeconds = 0.25;
         public static final double launchTimeSeconds = 1;
+    }
+    public static class EpicSpinnyThingy {
+        public static final double spinnyThingyGoBrrr = 1;
+        public static final double stGoBrrUnoReverse = -1;
     }
 }
