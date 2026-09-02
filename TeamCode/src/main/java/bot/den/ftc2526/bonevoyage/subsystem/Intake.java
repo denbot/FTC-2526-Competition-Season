@@ -9,7 +9,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import bot.den.ftc2526.bonevoyage.Constants;
 
-public class Intake implements BaseSubsystem{
+public class Intake implements BaseSubsystem {
     private final Telemetry telemetry;
     private DcMotor intakeMotor = null;
 

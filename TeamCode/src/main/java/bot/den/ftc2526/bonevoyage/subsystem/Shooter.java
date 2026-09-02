@@ -14,7 +14,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import bot.den.ftc2526.bonevoyage.Constants;
 
-public class Shooter implements BaseSubsystem{
+public class Shooter implements BaseSubsystem {
     private enum LaunchState {
         IDLE,
         PREPARE,
