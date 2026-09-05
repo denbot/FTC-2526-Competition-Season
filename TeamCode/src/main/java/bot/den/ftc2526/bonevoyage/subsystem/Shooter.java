@@ -63,7 +63,7 @@ public class Shooter implements BaseSubsystem {
     public void runFeederReverse(){
         rightFeeder.setPower(Constants.Shooter.feederReversePower);
         leftFeeder.setPower(Constants.Shooter.feederReversePower);
-    };
+    }
     public void showTelemetry(){
         telemetry.addData("motorSpeed", launcher.getVelocity());
         telemetry.addData("State", launchState);
